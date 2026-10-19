@@ -1,0 +1,116 @@
+<header class="cabecalho">
+  <h1>Tarefas</h1>
+  <a mat-flat-button routerLink="nova" class="botao-novo">
+    <mat-icon>add</mat-icon>
+    Nova tarefa
+  </a>
+</header>
+
+<mat-card appearance="outlined">
+  <form class="filtros" [formGroup]="filtros">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="campo-termo">
+      <mat-label>Buscar por título</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput formControlName="termo" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="">Todos</mat-option>
+        @for (status of statusOpcoes; track status) {
+          <mat-option [value]="status">{{ statusLabels[status] }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" class="limpar" (click)="limparFiltros()">Limpar</button>
+  </form>
+
+  @if (carregando()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="tabela-container">
+    <table
+      mat-table
+      [dataSource]="tarefas()"
+      matSort
+      matSortActive="criadoEm"
+      matSortDirection="desc"
+      (matSortChange)="aoOrdenar($event)"
+    >
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Título</th>
+        <td mat-cell *matCellDef="let tarefa">
+          <span class="titulo">{{ tarefa.titulo }}</span>
+          @if (tarefa.descricao) {
+            <span class="descricao">{{ tarefa.descricao }}</span>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let tarefa">
+          <span class="etiqueta" [attr.data-status]="tarefa.status">
+            {{ rotuloStatus(tarefa.status) }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="prioridade">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Prioridade</th>
+        <td mat-cell *matCellDef="let tarefa">
+          <span class="prioridade" [attr.data-prioridade]="tarefa.prioridade">
+            {{ rotuloPrioridade(tarefa.prioridade) }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataVencimento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vencimento</th>
+        <td mat-cell *matCellDef="let tarefa" [class.vencida]="estaVencida(tarefa)">
+          {{ tarefa.dataVencimento ? (tarefa.dataVencimento | date: 'dd/MM/yyyy') : '—' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef class="col-acoes">Ações</th>
+        <td mat-cell *matCellDef="let tarefa" class="col-acoes">
+          <a mat-icon-button [routerLink]="[tarefa.id, 'editar']" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button
+            mat-icon-button
+            type="button"
+            class="excluir"
+            matTooltip="Excluir"
+            (click)="excluir(tarefa)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      <tr class="mat-mdc-row" *matNoDataRow>
+        <td class="mat-mdc-cell vazio" [attr.colspan]="colunas.length">
+          @if (!carregando()) {
+            Nenhuma tarefa encontrada.
+          }
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="totalElementos()"
+    [pageIndex]="pagina()"
+    [pageSize]="tamanho()"
+    [pageSizeOptions]="[5, 10, 25, 50]"
+    showFirstLastButtons
+    (page)="aoPaginar($event)"
+  />
+</mat-card>

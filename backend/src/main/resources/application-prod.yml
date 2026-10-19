@@ -1,0 +1,13 @@
+# Perfil de produção (Azure). Defina SPRING_PROFILES_ACTIVE=prod e as variáveis:
+#   DB_URL=jdbc:postgresql://<servidor>.postgres.database.azure.com:5432/gerenciador_tarefas?sslmode=require
+#   DB_USERNAME, DB_PASSWORD, CORS_ALLOWED_ORIGINS
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:false}
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN

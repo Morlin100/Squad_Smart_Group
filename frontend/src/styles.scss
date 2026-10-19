@@ -1,0 +1,174 @@
+// Tema global: identidade dourada sobre branco, com superfícies arredondadas.
+// Os tokens do Angular Material (Material 3) são sobrescritos aqui para que todos
+// os componentes herdem as cores e formas sem precisar de estilos locais.
+@use '@angular/material' as mat;
+
+:root {
+  --ouro-50: #fdf9ef;
+  --ouro-100: #f8efd8;
+  --ouro-200: #efdcab;
+  --ouro-300: #e2c47a;
+  --ouro-400: #d1a94f;
+  --ouro-500: #b88e34;
+  --ouro-600: #9a7426;
+  --ouro-700: #7a5b1e;
+  --ouro-800: #5a4317;
+
+  --gradiente-ouro: linear-gradient(135deg, #d6b25e 0%, #b88e34 55%, #9a7426 100%);
+  --fundo-app: #faf8f3;
+  --borda-suave: #eee6d3;
+  --texto-forte: #2b2418;
+  --texto-suave: #7b705c;
+
+  --raio-lg: 24px;
+  --raio-md: 16px;
+  --raio-sm: 12px;
+  --sombra-card: 0 1px 2px rgb(90 67 23 / 4%), 0 12px 32px -12px rgb(90 67 23 / 18%);
+}
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$yellow-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: 'Plus Jakarta Sans',
+    density: 0,
+  ));
+
+  @include mat.theme-overrides((
+    primary: var(--ouro-600),
+    on-primary: #ffffff,
+    primary-container: var(--ouro-100),
+    on-primary-container: var(--ouro-800),
+    secondary-container: var(--ouro-100),
+    on-secondary-container: var(--ouro-800),
+    surface: #ffffff,
+    on-surface: var(--texto-forte),
+    on-surface-variant: var(--texto-suave),
+    surface-container-lowest: #ffffff,
+    surface-container-low: #ffffff,
+    surface-container: #ffffff,
+    surface-container-high: var(--ouro-50),
+    surface-container-highest: var(--ouro-100),
+    outline: #d9ccae,
+    outline-variant: var(--borda-suave),
+  ));
+
+  @include mat.card-overrides((
+    outlined-container-shape: var(--raio-lg),
+    outlined-outline-color: var(--borda-suave),
+  ));
+
+  @include mat.form-field-overrides((
+    outlined-container-shape: var(--raio-md),
+    outlined-outline-color: #e3d8bf,
+    outlined-hover-outline-color: var(--ouro-400),
+    outlined-focus-outline-color: var(--ouro-500),
+    outlined-focus-label-text-color: var(--ouro-600),
+  ));
+
+  @include mat.button-overrides((
+    filled-container-shape: var(--raio-sm),
+    text-container-shape: var(--raio-sm),
+    outlined-container-shape: var(--raio-sm),
+    filled-label-text-weight: 600,
+    text-label-text-weight: 600,
+  ));
+
+  @include mat.icon-button-overrides((
+    container-shape: var(--raio-sm),
+  ));
+
+  @include mat.dialog-overrides((
+    container-shape: var(--raio-lg),
+    container-color: #ffffff,
+  ));
+
+  @include mat.select-overrides((
+    panel-background-color: #ffffff,
+  ));
+
+  @include mat.snack-bar-overrides((
+    container-shape: var(--raio-sm),
+    container-color: var(--texto-forte),
+    supporting-text-color: #ffffff,
+    button-color: var(--ouro-300),
+  ));
+
+  @include mat.tooltip-overrides((
+    container-shape: 8px,
+    container-color: var(--texto-forte),
+  ));
+
+  @include mat.progress-bar-overrides((
+    active-indicator-color: var(--ouro-500),
+    track-color: var(--ouro-100),
+  ));
+
+  @include mat.table-overrides((
+    background-color: transparent,
+    header-headline-color: var(--texto-suave),
+    row-item-outline-color: #f2ecdf,
+  ));
+
+  @include mat.paginator-overrides((
+    container-background-color: transparent,
+  ));
+
+  @include mat.toolbar-overrides((
+    container-background-color: #ffffff,
+    container-text-color: var(--texto-forte),
+  ));
+}
+
+body {
+  color-scheme: light;
+  background:
+    radial-gradient(1200px 400px at 50% -120px, var(--ouro-100), transparent 70%),
+    var(--fundo-app);
+  background-attachment: fixed;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+// Cartões elevados com sombra dourada suave.
+.mat-mdc-card.mat-mdc-card-outlined {
+  box-shadow: var(--sombra-card);
+  overflow: hidden;
+}
+
+// Botão principal em gradiente dourado.
+.mat-mdc-unelevated-button:not(:disabled) {
+  background: var(--gradiente-ouro);
+  box-shadow: 0 6px 16px -6px rgb(154 116 38 / 55%);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 10px 22px -8px rgb(154 116 38 / 65%);
+    transform: translateY(-1px);
+  }
+}
+
+// Painéis flutuantes (select, datepicker) também arredondados.
+.mat-mdc-select-panel,
+.mat-datepicker-content {
+  border-radius: var(--raio-md) !important;
+  box-shadow: var(--sombra-card) !important;
+}
+
+.mat-datepicker-content .mat-calendar-body-selected {
+  background: var(--ouro-600);
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgb(43 36 24 / 45%);
+  backdrop-filter: blur(2px);
+}

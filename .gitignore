@@ -1,0 +1,2 @@
+# Estado local do deploy no Azure
+infra/azure/.deploy-state.json

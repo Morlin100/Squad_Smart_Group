@@ -1,0 +1,110 @@
+{
+  "info": {
+    "name": "Gerenciador de Tarefas API",
+    "description": "Cadastro de tarefas. Rode primeiro o 'Criar tarefa': ele salva o id na variável {{tarefaId}}, usada pelas demais requisições.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://app-gerenciador-gc6909.azurewebsites.net" },
+    { "key": "tarefaId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": { "method": "GET", "url": "{{baseUrl}}/actuator/health" }
+    },
+    {
+      "name": "Criar tarefa",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('tarefaId', pm.response.json().id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/tarefas",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Estudar Spring Boot\",\n  \"descricao\": \"Revisar controllers e validação\",\n  \"status\": \"PENDENTE\",\n  \"prioridade\": \"ALTA\",\n  \"dataVencimento\": \"2026-10-15\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Listar tarefas",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tarefas?page=0&size=10&sort=criadoEm,desc",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tarefas"],
+          "query": [
+            { "key": "page", "value": "0" },
+            { "key": "size", "value": "10" },
+            { "key": "sort", "value": "criadoEm,desc" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Listar com filtros",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/tarefas?status=PENDENTE&termo=spring",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "tarefas"],
+          "query": [
+            { "key": "status", "value": "PENDENTE", "description": "PENDENTE | EM_ANDAMENTO | CONCLUIDA" },
+            { "key": "termo", "value": "spring", "description": "Busca parcial no título, sem diferenciar maiúsculas" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Buscar por id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/tarefas/{{tarefaId}}" }
+    },
+    {
+      "name": "Atualizar tarefa",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/tarefas/{{tarefaId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Estudar Spring Boot\",\n  \"descricao\": \"Revisar controllers e validação\",\n  \"status\": \"CONCLUIDA\",\n  \"prioridade\": \"ALTA\",\n  \"dataVencimento\": \"2026-10-15\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Excluir tarefa",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/v1/tarefas/{{tarefaId}}" }
+    },
+    {
+      "name": "Erros",
+      "item": [
+        {
+          "name": "Criar inválido (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/v1/tarefas",
+            "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"\",\n  \"prioridade\": \"ALTA\"\n}" }
+          }
+        },
+        {
+          "name": "Buscar inexistente (404)",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/tarefas/9999" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+<header class="cabecalho">
+  <a mat-icon-button routerLink="/tarefas" aria-label="Voltar">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <h1>{{ editando() ? 'Editar tarefa' : 'Nova tarefa' }}</h1>
+</header>
+
+<mat-card appearance="outlined">
+  @if (carregando() || salvando()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <form class="formulario" [formGroup]="form" (ngSubmit)="salvar()">
+    <mat-form-field appearance="outline" class="largura-total">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" maxlength="150" autocomplete="off" />
+      <mat-hint align="end">{{ form.controls.titulo.value.length }}/150</mat-hint>
+      @if (form.controls.titulo.hasError('required') || form.controls.titulo.hasError('pattern')) {
+        <mat-error>O título é obrigatório</mat-error>
+      } @else if (form.controls.titulo.hasError('maxlength')) {
+        <mat-error>O título deve ter no máximo 150 caracteres</mat-error>
+      } @else if (form.controls.titulo.hasError('servidor')) {
+        <mat-error>{{ form.controls.titulo.getError('servidor') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="largura-total">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="descricao" rows="4" maxlength="1000"></textarea>
+      <mat-hint align="end">{{ form.controls.descricao.value.length }}/1000</mat-hint>
+      @if (form.controls.descricao.hasError('servidor')) {
+        <mat-error>{{ form.controls.descricao.getError('servidor') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="linha">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          @for (status of statusOpcoes; track status) {
+            <mat-option [value]="status">{{ statusLabels[status] }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.status.hasError('required')) {
+          <mat-error>O status é obrigatório</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Prioridade</mat-label>
+        <mat-select formControlName="prioridade">
+          @for (prioridade of prioridadeOpcoes; track prioridade) {
+            <mat-option [value]="prioridade">{{ prioridadeLabels[prioridade] }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.prioridade.hasError('required')) {
+          <mat-error>A prioridade é obrigatória</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Data de vencimento</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dataVencimento" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker" />
+        <mat-datepicker #picker />
+        @if (form.controls.dataVencimento.hasError('matDatepickerParse')) {
+          <mat-error>Data inválida</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="acoes">
+      <a mat-button routerLink="/tarefas">Cancelar</a>
+      <button mat-flat-button type="submit" [disabled]="salvando() || carregando()">
+        <mat-icon>save</mat-icon>
+        Salvar
+      </button>
+    </div>
+  </form>
+</mat-card>
