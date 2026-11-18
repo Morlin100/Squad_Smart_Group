@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#9a7426">
+  <title>Planning Poker</title>
+  <link rel="stylesheet" href="/poker/poker.css">
+</head>
+<body>
+  <header class="topo">
+    <span class="selo" aria-hidden="true">♠</span>
+    <h1>Planning Poker</h1>
+  </header>
+
+  <div id="aviso-offline" class="aviso aviso-erro" role="alert" hidden>
+    Você está sem internet. Assim que a conexão voltar, a tela atualiza sozinha.
+  </div>
+
+  <main class="conteudo">
+    <!-- Tela inicial: abrir rodada e listar as recentes -->
+    <section id="tela-inicio" hidden>
+      <form id="form-rodada" class="cartao" novalidate>
+        <h2>Nova rodada</h2>
+        <label for="campo-tarefa">Qual tarefa o time vai estimar?</label>
+        <input id="campo-tarefa" type="text" maxlength="150" placeholder="Ex.: Tela de login" autocomplete="off" required>
+        <p id="erro-tarefa" class="erro-campo" hidden></p>
+        <button type="submit" class="botao">Abrir rodada</button>
+      </form>
+
+      <section class="cartao">
+        <h2>Rodadas recentes</h2>
+        <ul id="lista-rodadas" class="lista-rodadas"></ul>
+        <p id="sem-rodadas" class="suave" hidden>Nenhuma rodada ainda.</p>
+      </section>
+    </section>
+
+    <!-- Tela da rodada -->
+    <section id="tela-rodada" hidden>
+      <a href="/poker" class="voltar">← Rodadas</a>
+
+      <div class="cartao">
+        <p class="rotulo">Tarefa</p>
+        <h2 id="nome-tarefa" class="nome-tarefa"></h2>
+        <span id="situacao" class="etiqueta"></span>
+      </div>
+
+      <div id="area-voto" class="cartao">
+        <label for="campo-nome">Seu nome</label>
+        <input id="campo-nome" type="text" maxlength="60" placeholder="Como o time te conhece" autocomplete="name">
+
+        <p class="rotulo">Escolha sua carta</p>
+        <div id="cartas" class="cartas" role="radiogroup" aria-label="Cartas"></div>
+
+        <button id="botao-votar" type="button" class="botao" disabled>Votar</button>
+      </div>
+
+      <div id="mensagem" class="aviso" role="status" hidden></div>
+
+      <div class="cartao">
+        <p id="contagem" class="contagem"></p>
+        <ul id="quem-votou" class="quem-votou"></ul>
+        <button id="botao-encerrar" type="button" class="botao botao-secundario">Encerrar e revelar votos</button>
+      </div>
+
+      <!-- Resultado (só depois de encerrar) -->
+      <section id="resultado" class="cartao" hidden>
+        <h2>Resultado</h2>
+        <div class="metricas">
+          <div class="metrica"><span class="rotulo">Média</span><strong id="media"></strong></div>
+          <div class="metrica"><span class="rotulo">Mais votada</span><strong id="mais-votada"></strong></div>
+        </div>
+        <div id="divergencia" class="aviso aviso-alerta" hidden></div>
+        <ul id="votos" class="votos"></ul>
+      </section>
+    </section>
+  </main>
+
+  <script src="/poker/poker.js"></script>
+</body>
+</html>

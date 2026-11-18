@@ -106,7 +106,7 @@ if (-not $SomentePublicar) {
 }
 
 Write-Host "==> Gerando o .jar" -ForegroundColor Cyan
-Push-Location (Join-Path $raiz 'backend')
+Push-Location (Join-Path $raiz 'api')
 try {
     & ./mvnw.cmd -B -q clean package -DskipTests
     if ($LASTEXITCODE -ne 0) { throw 'Falha no build do backend' }
