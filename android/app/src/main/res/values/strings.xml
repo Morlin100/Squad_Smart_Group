@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Gerenciador de Tarefas</string>
+
+    <!-- Navegação -->
+    <string name="aba_tarefas">Tarefas</string>
+    <string name="aba_dashboard">Dashboard</string>
+    <string name="aba_avaliar">Avaliar</string>
+
+    <!-- Lista -->
+    <string name="buscar_por_titulo">Buscar por título</string>
+    <string name="responsavel">Responsável</string>
+    <string name="status">Status</string>
+    <string name="prioridade">Prioridade</string>
+    <string name="ordenar_por">Ordenar por</string>
+    <string name="todos">Todos</string>
+    <string name="limpar">Limpar</string>
+    <string name="nova_tarefa">Nova tarefa</string>
+    <string name="nenhuma_tarefa">Nenhuma tarefa encontrada.</string>
+    <string name="sem_responsavel">Sem responsável</string>
+    <string name="tentar_novamente">Tentar novamente</string>
+    <string name="excluir">Excluir</string>
+    <string name="excluir_tarefa">Excluir tarefa</string>
+    <string name="confirmar_exclusao">Deseja realmente excluir a tarefa \"%1$s\"?</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="vencimento_em">Vence em %1$s</string>
+    <string name="vencida_em">Venceu em %1$s</string>
+
+    <!-- Formulário -->
+    <string name="editar_tarefa">Editar tarefa</string>
+    <string name="titulo">Título</string>
+    <string name="descricao">Descrição</string>
+    <string name="data_vencimento">Data de vencimento</string>
+    <string name="limpar_data">Limpar data</string>
+    <string name="salvar">Salvar</string>
+    <string name="historico">Histórico de alterações</string>
+
+    <!-- Dashboard -->
+    <string name="criadas_no_periodo">Criadas no período</string>
+    <string name="atualizado_as">Atualizado às %1$s</string>
+    <string name="ind_tarefas">Tarefas</string>
+    <string name="ind_concluidas">Concluídas (%1$d)</string>
+    <string name="ind_vencidas">Vencidas</string>
+    <string name="ind_criadas_7">Criadas em 7 dias</string>
+    <string name="por_status">Por status</string>
+    <string name="por_prioridade">Por prioridade</string>
+    <string name="por_responsavel">Por responsável</string>
+    <string name="nenhuma_tarefa_filtros">Nenhuma tarefa com esses filtros.</string>
+    <string name="dashboard_indisponivel">O dashboard ainda não está disponível na API publicada. Ele aparece assim que a API for atualizada no Azure.</string>
+
+    <!-- Pesquisa da Task Up (WebView) -->
+    <string name="pesquisa_sem_internet">Sem conexão com a internet. Verifique o Wi-Fi ou os dados móveis e tente novamente.</string>
+    <string name="pesquisa_erro_carregar">Não foi possível carregar a pesquisa de satisfação.</string>
+    <string name="pesquisa_indisponivel">A pesquisa de satisfação está indisponível no momento (erro %1$d).</string>
+</resources>

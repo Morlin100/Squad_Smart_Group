@@ -1,0 +1,177 @@
+<header class="cabecalho">
+  <h1>Tarefas</h1>
+  <a mat-flat-button routerLink="nova" class="botao-novo">
+    <mat-icon>add</mat-icon>
+    Nova tarefa
+  </a>
+</header>
+
+<mat-card appearance="outlined">
+  <form class="filtros" [formGroup]="filtros">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="campo-termo">
+      <mat-label>Buscar por título</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput formControlName="termo" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="campo-responsavel">
+      <mat-label>Responsável</mat-label>
+      <mat-icon matPrefix>person</mat-icon>
+      <input matInput formControlName="responsavel" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="">Todos</mat-option>
+        @for (status of statusOpcoes; track status) {
+          <mat-option [value]="status">{{ statusLabels[status] }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- No celular não há cabeçalho de tabela para clicar, então a ordenação vira um seletor -->
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="so-celular">
+      <mat-label>Ordenar por</mat-label>
+      <mat-select [value]="ordenacaoAtual()" (selectionChange)="aoOrdenarPorSeletor($event.value)">
+        @for (opcao of opcoesOrdenacao; track opcao.valor) {
+          <mat-option [value]="opcao.valor">{{ opcao.rotulo }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" class="limpar" (click)="limparFiltros()">Limpar</button>
+  </form>
+
+  @if (carregando()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <div class="tabela-container">
+    <table
+      mat-table
+      [dataSource]="tarefas()"
+      matSort
+      matSortActive="criadoEm"
+      matSortDirection="desc"
+      (matSortChange)="aoOrdenar($event)"
+    >
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Título</th>
+        <td mat-cell *matCellDef="let tarefa">
+          <span class="titulo">{{ tarefa.titulo }}</span>
+          @if (tarefa.descricao) {
+            <span class="descricao">{{ tarefa.descricao }}</span>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="responsavel">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Responsável</th>
+        <td mat-cell *matCellDef="let tarefa">{{ tarefa.responsavel || '—' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let tarefa">
+          <span class="etiqueta" [attr.data-status]="tarefa.status">
+            {{ rotuloStatus(tarefa.status) }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="prioridade">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Prioridade</th>
+        <td mat-cell *matCellDef="let tarefa">
+          <span class="prioridade" [attr.data-prioridade]="tarefa.prioridade">
+            {{ rotuloPrioridade(tarefa.prioridade) }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataVencimento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vencimento</th>
+        <td mat-cell *matCellDef="let tarefa" [class.vencida]="estaVencida(tarefa)">
+          {{ tarefa.dataVencimento ? (tarefa.dataVencimento | date: 'dd/MM/yyyy') : '—' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef class="col-acoes">Ações</th>
+        <td mat-cell *matCellDef="let tarefa" class="col-acoes">
+          <a mat-icon-button [routerLink]="[tarefa.id, 'editar']" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button
+            mat-icon-button
+            type="button"
+            class="excluir"
+            matTooltip="Excluir"
+            [disabled]="excluindoId() === tarefa.id"
+            (click)="excluir(tarefa)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas"></tr>
+      <tr class="mat-mdc-row" *matNoDataRow>
+        <td class="mat-mdc-cell vazio" [attr.colspan]="colunas.length">
+          @if (!carregando()) {
+            Nenhuma tarefa encontrada.
+          }
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Celular: cartões no lugar da tabela, sem rolagem lateral (KAN-61) -->
+  <ul class="cartoes">
+    @for (tarefa of tarefas(); track tarefa.id) {
+      <li class="cartao-tarefa" [class.saindo]="excluindoId() === tarefa.id">
+        <a class="cartao-corpo" [routerLink]="[tarefa.id, 'editar']">
+          <span class="titulo">{{ tarefa.titulo }}</span>
+          <span class="linha-info">
+            <mat-icon>person</mat-icon>{{ tarefa.responsavel || 'Sem responsável' }}
+          </span>
+          <span class="linha-info">
+            <span class="etiqueta" [attr.data-status]="tarefa.status">{{ rotuloStatus(tarefa.status) }}</span>
+            <span class="prioridade" [attr.data-prioridade]="tarefa.prioridade">
+              {{ rotuloPrioridade(tarefa.prioridade) }}
+            </span>
+          </span>
+          @if (tarefa.dataVencimento) {
+            <span class="linha-info" [class.vencida]="estaVencida(tarefa)">
+              <mat-icon>event</mat-icon>{{ tarefa.dataVencimento | date: 'dd/MM/yyyy' }}
+            </span>
+          }
+        </a>
+        <button
+          mat-icon-button
+          type="button"
+          class="excluir"
+          aria-label="Excluir"
+          [disabled]="excluindoId() === tarefa.id"
+          (click)="excluir(tarefa)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </li>
+    } @empty {
+      @if (!carregando()) {
+        <li class="vazio">Nenhuma tarefa encontrada.</li>
+      }
+    }
+  </ul>
+
+  <mat-paginator
+    [length]="totalElementos()"
+    [pageIndex]="pagina()"
+    [pageSize]="tamanho()"
+    [pageSizeOptions]="[5, 10, 25, 50]"
+    showFirstLastButtons
+    (page)="aoPaginar($event)"
+  />
+</mat-card>

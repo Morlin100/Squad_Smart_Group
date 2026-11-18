@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_tarefas"
+        android:icon="@drawable/ic_list"
+        android:title="@string/aba_tarefas" />
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_insights"
+        android:title="@string/aba_dashboard" />
+    <item
+        android:id="@+id/nav_avaliar"
+        android:icon="@drawable/ic_rate_review"
+        android:title="@string/aba_avaliar" />
+</menu>

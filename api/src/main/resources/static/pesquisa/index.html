@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#9a7426">
+  <title>Pesquisa de Satisfação · Gerenciador de Tarefas</title>
+  <link rel="stylesheet" href="/pesquisa/pesquisa.css">
+</head>
+<body>
+  <header class="topo">
+    <span class="selo" aria-hidden="true">✓</span>
+    <div>
+      <h1>Gerenciador de Tarefas</h1>
+      <p class="subtitulo">Pesquisa de satisfação</p>
+    </div>
+  </header>
+
+  <div id="aviso-offline" class="faixa-offline" role="alert" hidden>
+    Você está sem internet. Sua resposta só pode ser enviada quando a conexão voltar.
+  </div>
+
+  <main class="conteudo">
+    <!-- Formulário -->
+    <form id="tela-formulario" class="cartao" novalidate>
+      <h2>O que você achou do Gerenciador de Tarefas?</h2>
+      <p class="suave">Leva menos de um minuto. Sua resposta é anônima.</p>
+
+      <fieldset class="pergunta" id="pergunta-nota">
+        <legend>1. Que nota você dá para o app? <span class="obrigatorio">*</span></legend>
+        <div class="estrelas" data-campo="notaGeral" role="radiogroup" aria-label="Nota geral de 1 a 5"></div>
+        <p class="legenda-escala"><span>Muito ruim</span><span>Excelente</span></p>
+        <p class="erro-campo" data-erro="notaGeral" hidden></p>
+      </fieldset>
+
+      <fieldset class="pergunta" id="pergunta-facilidade">
+        <legend>2. É fácil cadastrar e organizar suas tarefas? <span class="obrigatorio">*</span></legend>
+        <div class="escala" data-campo="facilidadeUso" role="radiogroup" aria-label="Facilidade de uso de 1 a 5"></div>
+        <p class="legenda-escala"><span>Muito difícil</span><span>Muito fácil</span></p>
+        <p class="erro-campo" data-erro="facilidadeUso" hidden></p>
+      </fieldset>
+
+      <fieldset class="pergunta">
+        <legend>3. Você recomendaria o app para um colega? <span class="obrigatorio">*</span></legend>
+        <div class="opcoes-duas" data-campo="recomendaria" role="radiogroup" aria-label="Recomendaria">
+          <button type="button" class="opcao" data-valor="true" role="radio" aria-checked="false">👍 Sim</button>
+          <button type="button" class="opcao" data-valor="false" role="radio" aria-checked="false">👎 Não</button>
+        </div>
+        <p class="erro-campo" data-erro="recomendaria" hidden></p>
+      </fieldset>
+
+      <fieldset class="pergunta">
+        <legend>4. Do que você mais gostou?</legend>
+        <div class="opcoes-lista" data-campo="funcionalidadeFavorita" role="radiogroup" aria-label="Funcionalidade favorita"></div>
+      </fieldset>
+
+      <div class="pergunta">
+        <label for="comentario">5. Quer deixar um comentário ou sugestão?</label>
+        <textarea id="comentario" maxlength="500" rows="4" placeholder="Ex.: queria receber lembrete antes do vencimento"></textarea>
+        <p class="contador"><span id="contador">0</span>/500</p>
+        <p class="erro-campo" data-erro="comentario" hidden></p>
+      </div>
+
+      <div id="mensagem" class="aviso aviso-erro" role="alert" hidden></div>
+
+      <button type="submit" id="botao-enviar" class="botao">Enviar avaliação</button>
+      <button type="button" class="botao botao-secundario" data-acao="ver-resultado">Ver resultado da pesquisa</button>
+    </form>
+
+    <!-- Agradecimento -->
+    <section id="tela-obrigado" class="cartao centro" hidden>
+      <div class="icone-grande" aria-hidden="true">🎉</div>
+      <h2>Obrigado pela avaliação!</h2>
+      <p class="suave">Sua resposta ajuda o time a melhorar o Gerenciador de Tarefas.</p>
+      <button type="button" class="botao" data-acao="ver-resultado">Ver resultado da pesquisa</button>
+      <button type="button" class="botao botao-secundario" data-acao="nova-resposta">Responder de novo</button>
+    </section>
+
+    <!-- Resultado consolidado -->
+    <section id="tela-resultado" hidden>
+      <div class="cartao">
+        <h2>Resultado da pesquisa</h2>
+        <p id="total" class="suave"></p>
+        <div class="metricas">
+          <div class="metrica"><span class="rotulo">Nota média</span><strong id="media-nota"></strong><span id="estrelas-media" class="estrelas-media" aria-hidden="true"></span></div>
+          <div class="metrica"><span class="rotulo">Facilidade de uso</span><strong id="media-facilidade"></strong></div>
+          <div class="metrica larga"><span class="rotulo">Recomendariam</span><strong id="recomendam"></strong></div>
+        </div>
+      </div>
+
+      <div class="cartao">
+        <h3>Distribuição das notas</h3>
+        <div id="distribuicao"></div>
+      </div>
+
+      <div class="cartao" id="bloco-funcionalidades">
+        <h3>Do que mais gostaram</h3>
+        <div id="funcionalidades"></div>
+      </div>
+
+      <div class="cartao" id="bloco-comentarios">
+        <h3>Últimos comentários</h3>
+        <ul id="comentarios" class="comentarios"></ul>
+      </div>
+
+      <div id="mensagem-resultado" class="aviso aviso-erro" role="alert" hidden></div>
+      <button type="button" class="botao botao-secundario" data-acao="voltar">Voltar para a pesquisa</button>
+    </section>
+  </main>
+
+  <script src="/pesquisa/pesquisa.js"></script>
+</body>
+</html>

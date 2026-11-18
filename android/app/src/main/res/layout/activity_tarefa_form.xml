@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/raiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fundo_app"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/branco"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/branco"
+            app:navigationContentDescription="@string/cancelar"
+            app:navigationIconTint="@color/ouro_600"
+            app:titleTextAppearance="@style/TextAppearance.TarefaApp.Titulo" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:alpha="0.7"
+            android:background="@drawable/gradiente_ouro" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progresso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/ouro_500"
+            app:trackColor="@color/ouro_100" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Falha ao buscar a tarefa (sem internet): o formulário continua na tela -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cartaoErro"
+                style="@style/Widget.TarefaApp.Cartao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/textoErro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawablePadding="8dp"
+                        android:textColor="@color/erro"
+                        android:textSize="15sp"
+                        app:drawableStartCompat="@drawable/ic_cloud_off"
+                        app:drawableTint="@color/erro" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/botaoTentar"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tentar_novamente" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.TarefaApp.Cartao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@drawable/gradiente_ouro" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoTitulo"
+                            style="@style/Widget.TarefaApp.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/titulo"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="150">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editTitulo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textCapSentences"
+                                android:maxLength="150"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoDescricao"
+                            style="@style/Widget.TarefaApp.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/descricao"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="1000">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editDescricao"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="top|start"
+                                android:inputType="textMultiLine|textCapSentences"
+                                android:maxLength="1000"
+                                android:minLines="4"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoResponsavel"
+                            style="@style/Widget.TarefaApp.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/responsavel"
+                            app:startIconDrawable="@drawable/ic_person">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editResponsavel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName|textCapWords"
+                                android:maxLength="100"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoStatus"
+                            style="@style/Widget.TarefaApp.Campo.Lista"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:hint="@string/status">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/dropStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoPrioridade"
+                            style="@style/Widget.TarefaApp.Campo.Lista"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:hint="@string/prioridade">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/dropPrioridade"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoData"
+                            style="@style/Widget.TarefaApp.Campo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:hint="@string/data_vencimento"
+                            app:endIconContentDescription="@string/limpar_data"
+                            app:endIconDrawable="@drawable/ic_close"
+                            app:endIconMode="custom"
+                            app:startIconDrawable="@drawable/ic_event">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editData"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:inputType="none"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/borda_suave" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/botaoCancelar"
+                                style="@style/Widget.Material3.Button.TextButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:minHeight="48dp"
+                                android:text="@string/cancelar"
+                                android:textColor="@color/texto_suave"
+                                app:cornerRadius="12dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/botaoSalvar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:minHeight="48dp"
+                                android:paddingHorizontal="24dp"
+                                android:text="@string/salvar"
+                                app:cornerRadius="12dp"
+                                app:icon="@drawable/ic_save" />
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/botaoExcluir"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:minHeight="48dp"
+                            android:text="@string/excluir"
+                            android:textColor="@color/erro"
+                            android:visibility="gone"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_delete"
+                            app:iconTint="@color/erro"
+                            app:strokeColor="@color/erro" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cartaoHistorico"
+                style="@style/Widget.TarefaApp.Cartao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:accessibilityHeading="true"
+                        android:text="@string/historico"
+                        android:textAppearance="@style/TextAppearance.TarefaApp.Titulo" />
+
+                    <LinearLayout
+                        android:id="@+id/listaHistorico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:orientation="vertical" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

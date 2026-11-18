@@ -1,0 +1,18 @@
+# Estado local do deploy no Azure
+infra/azure/.deploy-state.json
+
+# Logs de crash da JVM
+hs_err_pid*.log
+replay_pid*.log
+
+# Build / IDE
+target/
+build/
+.gradle/
+.kotlin/
+node_modules/
+.angular/
+dist/
+.idea/
+*.iml
+local.properties

@@ -1,0 +1,208 @@
+/* Mesmas cores do front web (dourado sobre branco). Pensado primeiro para a largura de um celular. */
+:root {
+  --ouro-50: #fdf9ef;
+  --ouro-100: #f8efd8;
+  --ouro-200: #efdcab;
+  --ouro-500: #b88e34;
+  --ouro-600: #9a7426;
+  --ouro-700: #7a5b1e;
+  --gradiente-ouro: linear-gradient(135deg, #d6b25e 0%, #b88e34 55%, #9a7426 100%);
+  --fundo: #faf8f3;
+  --borda: #eee6d3;
+  --texto: #2b2418;
+  --texto-suave: #7b705c;
+  --erro: #b3261e;
+  --sucesso: #2e7d32;
+  --raio: 16px;
+  --sombra: 0 1px 2px rgb(90 67 23 / 4%), 0 12px 32px -12px rgb(90 67 23 / 18%);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 2px solid var(--ouro-200);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.topo h1 { margin: 0; font-size: 20px; }
+.selo {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--gradiente-ouro);
+  color: #fff;
+  font-size: 20px;
+}
+
+.conteudo {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.cartao {
+  background: #fff;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+.cartao h2 { margin: 0 0 12px; font-size: 18px; }
+
+label, .rotulo {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-suave);
+  margin: 0 0 6px;
+}
+
+input[type="text"] {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid #e3d8bf;
+  border-radius: 12px;
+  font-size: 16px; /* 16px evita o zoom automático no celular */
+  margin-bottom: 14px;
+}
+input[type="text"]:focus { outline: 2px solid var(--ouro-500); border-color: transparent; }
+
+.botao {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--gradiente-ouro);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.botao:disabled { opacity: 0.45; cursor: not-allowed; }
+.botao-secundario {
+  background: #fff;
+  color: var(--ouro-700);
+  border: 1px solid var(--ouro-200);
+  margin-top: 8px;
+}
+
+.nome-tarefa { font-size: 22px; margin: 0 0 8px; word-break: break-word; }
+
+.etiqueta {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--ouro-100);
+  color: var(--ouro-700);
+}
+.etiqueta.encerrada { background: var(--gradiente-ouro); color: #fff; }
+
+/* 3 cartas por linha: cabe em qualquer celular sem rolar para o lado */
+.cartas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.carta {
+  aspect-ratio: 5 / 6;
+  min-height: 72px;
+  max-height: 150px;
+  border: 2px solid var(--ouro-200);
+  border-radius: 14px;
+  background: var(--ouro-50);
+  color: var(--ouro-700);
+  font-size: 30px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.carta[aria-checked="true"] {
+  background: var(--gradiente-ouro);
+  border-color: var(--ouro-600);
+  color: #fff;
+  transform: translateY(-3px);
+}
+.carta:disabled { cursor: not-allowed; opacity: 0.6; }
+
+.aviso {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  background: #edf7ee;
+  color: var(--sucesso);
+  font-weight: 600;
+}
+.aviso-erro { background: #fdecea; color: var(--erro); }
+.aviso-alerta { background: #fff4e5; color: #8a4b00; }
+#aviso-offline { margin: 0; border-radius: 0; text-align: center; }
+
+.erro-campo { color: var(--erro); font-size: 14px; margin: -8px 0 12px; }
+
+.contagem { font-weight: 700; margin: 0 0 6px; }
+.quem-votou, .votos, .lista-rodadas { list-style: none; margin: 0; padding: 0; }
+.quem-votou li {
+  display: inline-block;
+  margin: 0 6px 6px 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--ouro-50);
+  border: 1px solid var(--borda);
+  font-size: 14px;
+}
+
+.lista-rodadas a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--borda);
+  color: var(--texto);
+  text-decoration: none;
+}
+.lista-rodadas span:first-child { word-break: break-word; }
+
+.metricas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.metrica { background: var(--ouro-50); border-radius: 12px; padding: 10px 12px; }
+.metrica strong { font-size: 28px; color: var(--ouro-700); }
+
+.votos li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--borda);
+}
+.votos strong { color: var(--ouro-700); }
+
+.voltar {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  color: var(--ouro-700);
+  font-weight: 600;
+  text-decoration: none;
+}
+.suave { color: var(--texto-suave); }

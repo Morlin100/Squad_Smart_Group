@@ -1,0 +1,31 @@
+<resources>
+    <!-- Mesma paleta do front web (frontend/src/styles.scss) -->
+    <color name="ouro_50">#FDF9EF</color>
+    <color name="ouro_100">#F8EFD8</color>
+    <color name="ouro_200">#EFDCAB</color>
+    <color name="ouro_300">#E2C47A</color>
+    <color name="ouro_400">#D1A94F</color>
+    <color name="ouro_500">#B88E34</color>
+    <color name="ouro_600">#9A7426</color>
+    <color name="ouro_700">#7A5B1E</color>
+    <color name="ouro_800">#5A4317</color>
+    <color name="ouro_claro">#D6B25E</color>
+
+    <color name="fundo_app">#FAF8F3</color>
+    <color name="borda_suave">#EEE6D3</color>
+    <color name="contorno">#D9CCAE</color>
+    <color name="texto_forte">#2B2418</color>
+    <color name="texto_suave">#7B705C</color>
+    <color name="branco">#FFFFFF</color>
+    <color name="erro">#BA1A1A</color>
+
+    <!-- Etiquetas de status -->
+    <color name="pendente_texto">#6F6655</color>
+    <color name="pendente_fundo">#F3F0E9</color>
+    <color name="pendente_borda">#E7E1D4</color>
+
+    <!-- Pontos de prioridade -->
+    <color name="prioridade_baixa">#CFC6B3</color>
+    <color name="prioridade_media">#D1A94F</color>
+    <color name="prioridade_alta">#C2410C</color>
+</resources>

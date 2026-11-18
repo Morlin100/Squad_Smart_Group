@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.TarefaApp.Cartao"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp">
+
+        <TextView
+            android:id="@+id/tituloGrupo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:accessibilityHeading="true"
+            android:textAppearance="@style/TextAppearance.TarefaApp.Titulo" />
+
+        <LinearLayout
+            android:id="@+id/barras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/textoVazio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nenhuma_tarefa_filtros"
+            android:textColor="@color/texto_suave"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,103 @@
+<header class="cabecalho">
+  <h1>Dashboard</h1>
+  @if (dados(); as d) {
+    <span class="atualizado">Atualizado às {{ d.geradoEm | date: 'HH:mm:ss' }}</span>
+  }
+</header>
+
+<mat-card appearance="outlined">
+  <form class="filtros" [formGroup]="filtros">
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Responsável</mat-label>
+      <mat-icon matPrefix>person</mat-icon>
+      <input matInput formControlName="responsavel" autocomplete="off" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="">Todos</mat-option>
+        @for (status of statusOpcoes; track status) {
+          <mat-option [value]="status">{{ statusLabels[status] }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Criadas no período</mat-label>
+      <mat-date-range-input [rangePicker]="periodo">
+        <input matStartDate formControlName="dataInicio" placeholder="Início" />
+        <input matEndDate formControlName="dataFim" placeholder="Fim" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="periodo" />
+      <mat-date-range-picker #periodo />
+    </mat-form-field>
+
+    <button mat-stroked-button type="button" class="limpar" (click)="limpar()">Limpar</button>
+  </form>
+  @if (carregando()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+</mat-card>
+
+@if (dados(); as d) {
+  <section class="indicadores">
+    <mat-card appearance="outlined" class="indicador">
+      <mat-icon>assignment</mat-icon>
+      <span class="valor">{{ d.total }}</span>
+      <span class="rotulo">Tarefas</span>
+    </mat-card>
+    <mat-card appearance="outlined" class="indicador">
+      <mat-icon>task_alt</mat-icon>
+      <span class="valor">{{ d.percentualConcluidas | number: '1.0-1' }}%</span>
+      <span class="rotulo">Concluídas ({{ d.concluidas }})</span>
+    </mat-card>
+    <mat-card appearance="outlined" class="indicador" [class.alerta]="d.vencidas > 0">
+      <mat-icon>event_busy</mat-icon>
+      <span class="valor">{{ d.vencidas }}</span>
+      <span class="rotulo">Vencidas</span>
+    </mat-card>
+    <mat-card appearance="outlined" class="indicador">
+      <mat-icon>add_task</mat-icon>
+      <span class="valor">{{ d.criadasUltimos7Dias }}</span>
+      <span class="rotulo">Criadas em 7 dias</span>
+    </mat-card>
+  </section>
+
+  <section class="grupos">
+    <mat-card appearance="outlined" class="grupo">
+      <h2>Por status</h2>
+      @for (b of barrasStatus(); track b.rotulo) {
+        <div class="barra">
+          <span class="nome">{{ b.rotulo }}</span>
+          <span class="trilho"><span class="preenchido" [style.width.%]="b.largura"></span></span>
+          <span class="qtd">{{ b.quantidade }}</span>
+        </div>
+      }
+    </mat-card>
+
+    <mat-card appearance="outlined" class="grupo">
+      <h2>Por prioridade</h2>
+      @for (b of barrasPrioridade(); track b.rotulo) {
+        <div class="barra">
+          <span class="nome">{{ b.rotulo }}</span>
+          <span class="trilho"><span class="preenchido" [style.width.%]="b.largura"></span></span>
+          <span class="qtd">{{ b.quantidade }}</span>
+        </div>
+      }
+    </mat-card>
+
+    <mat-card appearance="outlined" class="grupo">
+      <h2>Por responsável</h2>
+      @for (b of barrasResponsavel(); track b.rotulo) {
+        <div class="barra">
+          <span class="nome">{{ b.rotulo }}</span>
+          <span class="trilho"><span class="preenchido" [style.width.%]="b.largura"></span></span>
+          <span class="qtd">{{ b.quantidade }}</span>
+        </div>
+      } @empty {
+        <p class="vazio">Nenhuma tarefa com esses filtros.</p>
+      }
+    </mat-card>
+  </section>
+}

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.TarefaApp.Cartao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_filtros"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoResponsavel"
+                            style="@style/Widget.TarefaApp.Campo.Denso"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/responsavel"
+                            app:endIconMode="clear_text"
+                            app:startIconDrawable="@drawable/ic_person">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editResponsavel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textPersonName|textCapWords"
+                                android:maxLines="1"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoStatus"
+                            style="@style/Widget.TarefaApp.Campo.Denso.Lista"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/status">
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/dropStatus"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/campoPeriodo"
+                            style="@style/Widget.TarefaApp.Campo.Denso"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="@string/criadas_no_periodo"
+                            app:endIconContentDescription="@string/limpar_data"
+                            app:endIconDrawable="@drawable/ic_close"
+                            app:endIconMode="custom"
+                            app:startIconDrawable="@drawable/ic_event">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/editPeriodo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:cursorVisible="false"
+                                android:focusable="false"
+                                android:inputType="none"
+                                android:saveEnabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/botaoLimpar"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="8dp"
+                            android:minHeight="48dp"
+                            android:text="@string/limpar"
+                            android:textColor="@color/ouro_700"
+                            app:cornerRadius="12dp"
+                            app:strokeColor="@color/ouro_200" />
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progresso"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="gone"
+                        app:indicatorColor="@color/ouro_500"
+                        app:trackColor="@color/ouro_100" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textoAtualizado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/texto_suave"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/iconeEstado"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_cloud_off"
+                    app:tint="@color/ouro_400" />
+
+                <TextView
+                    android:id="@+id/textoEstado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:textColor="@color/texto_suave"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/botaoTentar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/tentar_novamente"
+                    app:cornerRadius="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/conteudo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/indTotal"
+                        layout="@layout/item_indicador"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1" />
+
+                    <include
+                        android:id="@+id/indConcluidas"
+                        layout="@layout/item_indicador"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <include
+                        android:id="@+id/indVencidas"
+                        layout="@layout/item_indicador"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1" />
+
+                    <include
+                        android:id="@+id/indCriadas"
+                        layout="@layout/item_indicador"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/grupoStatus"
+                    layout="@layout/item_grupo_barras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+
+                <include
+                    android:id="@+id/grupoPrioridade"
+                    layout="@layout/item_grupo_barras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+
+                <include
+                    android:id="@+id/grupoResponsavel"
+                    layout="@layout/item_grupo_barras"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
