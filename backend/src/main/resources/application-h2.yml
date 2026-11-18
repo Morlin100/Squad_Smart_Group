@@ -1,0 +1,11 @@
+# Banco H2 persistido em arquivo (não precisa de servidor de banco).
+# No Azure App Service use H2_PATH=/home/data/gerenciador_tarefas: o /home é persistente entre reinícios e deploys.
+# Atenção: rode com uma única instância (o arquivo do H2 não pode ser compartilhado entre processos).
+# Uso: SPRING_PROFILES_ACTIVE=prod,h2
+spring:
+  datasource:
+    url: jdbc:h2:file:${H2_PATH:./data/gerenciador_tarefas};MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 5
